@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Robin des Bois - Database Setup</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    h1 { color: #16a34a; }
+    .sql-box {
+      background: #1e293b;
+      color: #e2e8f0;
+      padding: 20px;
+      border-radius: 8px;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      overflow-x: auto;
+      margin: 20px 0;
+      white-space: pre;
+    }
+    button {
+      background: #16a34a;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    button:hover {
+      background: #15803d;
+    }
+    .success {
+      background: #dcfce7;
+      color: #166534;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 20px;
+      display: none;
+    }
+    .step {
+      margin: 15px 0;
+      padding-left: 25px;
+      position: relative;
+    }
+    .step::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: #16a34a;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🏹 Robin des Bois - Database Setup</h1>
+    
+    <p>Click the button below to copy the SQL, then:</p>
+    
+    <div class="step">Go to <a href="https://supabase.com/dashboard/project/vatixwzcwzmkyzfolfje/editor" target="_blank">Supabase SQL Editor</a></div>
+    <div class="step">Click "New Query"</div>
+    <div class="step">Paste the SQL (it's already copied!)</div>
+    <div class="step">Click "Run"</div>
+    
+    <div class="sql-box" id="sqlCode">create table public.sites (
+  id uuid default gen_random_uuid() primary key,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null,
+  company_name text,
+  profile_json jsonb,
+  content_json jsonb
+);
+alter table public.sites enable row level security;
+create policy "Enable insert for all users" on public.sites for insert with check (true);
+create policy "Enable read access for all users" on public.sites for select using (true);</div>
+    
+    <button onclick="copySQL()">📋 Copy SQL & Open Supabase</button>
+    
+    <div class="success" id="success">✅ SQL copied! Opening Supabase... Just paste and run!</div>
+  </div>
+  
+  <script>
+    function copySQL() {
+      const sql = document.getElementById('sqlCode').textContent;
+      navigator.clipboard.writeText(sql).then(() => {
+        document.getElementById('success').style.display = 'block';
+        setTimeout(() => {
+          window.open('https://supabase.com/dashboard/project/vatixwzcwzmkyzfolfje/editor', '_blank');
+        }, 500);
+      });
+    }
+  </script>
+</body>
+</html>
