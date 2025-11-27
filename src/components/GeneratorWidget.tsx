@@ -14,6 +14,7 @@ export function GeneratorWidget({ onGenerate }: { onGenerate: (profile: ProjectP
         city: '',
         email: '',
     });
+    const [template, setTemplate] = useState<'artisan' | 'modern'>('artisan');
 
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>, type: 'hero' | 'gallery') => {
         const file = e.target.files?.[0];
@@ -46,7 +47,7 @@ export function GeneratorWidget({ onGenerate }: { onGenerate: (profile: ProjectP
                 gallery: uploadedImages.gallery,
                 source: uploadedImages.hero ? 'upload' : 'stock',
             },
-            settings: { mode, apiKeys },
+            settings: { mode, template, apiKeys },
         };
         onGenerate(profile);
     };
@@ -156,6 +157,35 @@ export function GeneratorWidget({ onGenerate }: { onGenerate: (profile: ProjectP
                         />
                     </div>
                 )}
+
+                {/* Template Selection */}
+                <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700">Choisir un style :</label>
+                    <div className="grid grid-cols-2 gap-2">
+                        <button
+                            type="button"
+                            onClick={() => setTemplate('artisan')}
+                            className={clsx(
+                                "p-3 rounded-lg border-2 text-left transition-all",
+                                template === 'artisan' ? "border-emerald-500 bg-emerald-50" : "border-gray-100 hover:border-gray-200"
+                            )}
+                        >
+                            <div className="font-serif font-bold text-slate-900">Artisan</div>
+                            <div className="text-xs text-slate-500">Élégant & Classique</div>
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => setTemplate('modern')}
+                            className={clsx(
+                                "p-3 rounded-lg border-2 text-left transition-all",
+                                template === 'modern' ? "border-indigo-500 bg-indigo-50" : "border-gray-100 hover:border-gray-200"
+                            )}
+                        >
+                            <div className="font-sans font-bold text-slate-900">Modern</div>
+                            <div className="text-xs text-slate-500">Tech & Sombre</div>
+                        </button>
+                    </div>
+                </div>
 
                 <button
                     type="submit"

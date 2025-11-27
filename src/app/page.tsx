@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { SettingsProvider } from '@/context/SettingsContext';
 import { GeneratorWidget } from '@/components/GeneratorWidget';
 import { ArtisanTemplate } from '@/components/ArtisanTemplate';
+import { ModernTemplate } from '@/components/ModernTemplate';
 import { generateContent } from '@/lib/generator';
 import { ProjectProfile, GeneratedPageContent } from '@/types';
 import { Loader2 } from 'lucide-react';
@@ -57,7 +58,11 @@ function MainContent() {
                 >
                     Modifier / Recommencer
                 </button>
-                <ArtisanTemplate content={content} profile={profile} />
+                {profile.settings.template === 'modern' ? (
+                    <ModernTemplate content={content} profile={profile} />
+                ) : (
+                    <ArtisanTemplate content={content} profile={profile} />
+                )}
             </div>
         );
     }

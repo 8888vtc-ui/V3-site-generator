@@ -21,6 +21,7 @@ export type ProjectProfile = {
   };
   settings: {
     mode: 'free' | 'byok';
+    template: 'artisan' | 'modern'; // New field
     apiKeys?: {
       anthropic?: string;
       replicate?: string;
